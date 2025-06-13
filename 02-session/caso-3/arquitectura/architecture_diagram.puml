@@ -1,0 +1,115 @@
+@startuml MVC Architecture Diagram
+
+!define RECTANGLE class
+
+skinparam componentStyle rectangle
+skinparam backgroundColor white
+skinparam handwritten false
+
+package "Frontend Layer" {
+    [Web Browser] as Browser
+    [HTML Templates] as HTML
+    [JavaScript] as JS
+    [CSS Styles] as CSS
+}
+
+package "Application Layer" {
+    package "Controllers" {
+        [ProductoController] as PC
+        [CategoriaController] as CC
+        [ClienteController] as ClC
+        [FacturaController] as FC
+        [DetalleFacturaController] as DFC
+    }
+
+    package "Views" {
+        [ProductoView] as PV
+        [CategoriaView] as CV
+        [ClienteView] as ClV
+        [FacturaView] as FV
+        [DetalleFacturaView] as DFV
+    }
+}
+
+package "Domain Layer" {
+    package "Models" {
+        [Producto] as P
+        [Categoria] as C
+        [Cliente] as Cl
+        [Factura] as F
+        [DetalleFactura] as DF
+    }
+}
+
+package "Data Layer" {
+    [Database] as DB
+    [Data Access Layer] as DAL
+}
+
+' Frontend Layer Relationships
+Browser --> HTML : renders
+Browser --> JS : executes
+Browser --> CSS : applies styles
+HTML --> JS : uses
+HTML --> CSS : uses
+
+' Application Layer Relationships
+Browser --> PC : HTTP Request
+Browser --> CC : HTTP Request
+Browser --> ClC : HTTP Request
+Browser --> FC : HTTP Request
+Browser --> DFC : HTTP Request
+
+PC --> PV : updates
+CC --> CV : updates
+ClC --> ClV : updates
+FC --> FV : updates
+DFC --> DFV : updates
+
+PV --> Browser : HTTP Response
+CV --> Browser : HTTP Response
+ClV --> Browser : HTTP Response
+FV --> Browser : HTTP Response
+DFV --> Browser : HTTP Response
+
+' Domain Layer Relationships
+PC --> P : manages
+CC --> C : manages
+ClC --> Cl : manages
+FC --> F : manages
+DFC --> DF : manages
+
+P --> C : belongs to
+F --> Cl : belongs to
+F --> DF : contains
+DF --> P : references
+
+' Data Layer Relationships
+P --> DAL : persists
+C --> DAL : persists
+Cl --> DAL : persists
+F --> DAL : persists
+DF --> DAL : persists
+DAL --> DB : queries
+
+note right of Browser
+  User Interface
+  (HTML + JS + CSS)
+end note
+
+note right of PC
+  Business Logic
+  (Controllers)
+end note
+
+note right of P
+  Domain Models
+  (Data Structure)
+end note
+
+note right of DB
+  Data Storage
+  (Database)
+end note
+
+@enduml 

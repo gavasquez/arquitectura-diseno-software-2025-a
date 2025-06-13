@@ -1,0 +1,80 @@
+@startuml View Layer Diagram
+
+' Base View Class
+abstract class BaseView {
+    #controller: BaseController
+    +render(data: any): void
+    +showError(message: string): void
+    +showSuccess(message: string): void
+}
+
+' View Classes
+class ProductoView extends BaseView {
+    +mostrarListaProductos(productos: List<Producto>): void
+    +mostrarFormularioProducto(producto: Producto): void
+    +mostrarDetalleProducto(producto: Producto): void
+}
+
+class CategoriaView extends BaseView {
+    +mostrarListaCategorias(categorias: List<Categoria>): void
+    +mostrarFormularioCategoria(categoria: Categoria): void
+}
+
+class ClienteView extends BaseView {
+    +mostrarListaClientes(clientes: List<Cliente>): void
+    +mostrarFormularioCliente(cliente: Cliente): void
+    +mostrarDetalleCliente(cliente: Cliente): void
+}
+
+class FacturaView extends BaseView {
+    +mostrarListaFacturas(facturas: List<Factura>): void
+    +mostrarFormularioFactura(factura: Factura): void
+    +mostrarDetalleFactura(factura: Factura): void
+}
+
+class DetalleFacturaView extends BaseView {
+    +mostrarDetallesFactura(detalles: List<DetalleFactura>): void
+    +mostrarFormularioDetalle(detalle: DetalleFactura): void
+}
+
+' View Components
+package "Frontend Components" {
+    [HTML Templates] as HTML
+    [JavaScript] as JS
+    [CSS Styles] as CSS
+}
+
+' View Relationships
+ProductoView --> HTML : uses
+ProductoView --> JS : uses
+ProductoView --> CSS : uses
+
+CategoriaView --> HTML : uses
+CategoriaView --> JS : uses
+CategoriaView --> CSS : uses
+
+ClienteView --> HTML : uses
+ClienteView --> JS : uses
+ClienteView --> CSS : uses
+
+FacturaView --> HTML : uses
+FacturaView --> JS : uses
+FacturaView --> CSS : uses
+
+DetalleFacturaView --> HTML : uses
+DetalleFacturaView --> JS : uses
+DetalleFacturaView --> CSS : uses
+
+note right of BaseView
+  Base View with
+  common rendering
+  and notification
+  methods
+end note
+
+note right of HTML
+  Presentation
+  Templates
+end note
+
+@enduml 

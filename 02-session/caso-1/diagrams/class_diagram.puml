@@ -1,0 +1,108 @@
+@startuml
+
+' Auditoría
+abstract class Auditable {
+  -createdAt: Date
+  -updatedAt: Date
+  -createdBy: String
+  -updatedBy: String
+}
+
+note right of Auditable
+Todas las clases de implementación la agregan ***
+Aplicar concepto de agregación: las entidades contienen una referencia a la clase Auditable para reutilizar los campos de auditoría.
+end note
+
+' Entities
+class Producto {
+  -id: Long
+  -nombre: String
+  -precio: Double
+  -stock: Integer
+  -categoriaId: Long
+  +getters()
+  +setters()
+}
+
+class Categoria {
+  -id: Long
+  -nombre: String
+  -descripcion: String
+  +getters()
+  +setters()
+}
+
+class Cliente {
+  -id: Long
+  -nombre: String
+  -email: String
+  -telefono: String
+  +getters()
+  +setters()
+}
+
+class Factura {
+  -id: Long
+  -clienteId: Long
+  -fecha: Date
+  -total: Double
+  +getters()
+  +setters()
+}
+
+class DetalleFactura {
+  -id: Long
+  -facturaId: Long
+  -productoId: Long
+  -cantidad: Integer
+  -precioUnitario: Double
+  -subtotal: Double
+  +getters()
+  +setters()
+}
+
+' Abstract Factory
+interface DAOFactory {
+  +create(): DAOFactory
+  +updated(): DAOFactory
+  +delete(): DAOFactory
+  +findById(id: Long): DAOFactory
+  +findAll(): List<DAOFactory>
+}
+
+abstract class ConcreteDAOFactory {
+  
+}
+
+DAOFactory <|.. ConcreteDAOFactory
+
+' DAOs y Factory Method
+class ProductoDAO {
+  +create(): Producto
+}
+class CategoriaDAO {
+  +create(): Categoria
+}
+class ClienteDAO {
+  +create(): Cliente
+}
+class FacturaDAO {
+  +create(): Factura
+}
+class DetalleFacturaDAO {
+  +create(): DetalleFactura
+}
+
+ConcreteDAOFactory --> ProductoDAO
+ConcreteDAOFactory --> CategoriaDAO
+ConcreteDAOFactory --> ClienteDAO
+ConcreteDAOFactory --> FacturaDAO
+ConcreteDAOFactory --> DetalleFacturaDAO
+
+' Relationships
+Producto "1" -- "1" Categoria : belongs to
+Factura "1" -- "1" Cliente : belongs to
+Factura "1" -- "*" DetalleFactura : contains
+DetalleFactura "*" -- "1" Producto : references
+
+@enduml

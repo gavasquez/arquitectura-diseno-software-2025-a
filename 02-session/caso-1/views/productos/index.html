@@ -1,0 +1,112 @@
+<!-- Products List View -->
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-box me-2"></i>Gestión de Productos</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productoModal">
+            <i class="fas fa-plus me-2"></i>Nuevo Producto
+        </button>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar producto...">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select">
+                        <option value="">Todas las categorías</option>
+                        <option value="1">Electrónicos</option>
+                        <option value="2">Ropa</option>
+                        <option value="3">Hogar</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Table -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Laptop HP</td>
+                            <td>Electrónicos</td>
+                            <td>$999.99</td>
+                            <td>15</td>
+                            <td>
+                                <button class="btn btn-sm btn-info me-1">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- More rows will be dynamically added -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Product Modal -->
+<div class="modal fade" id="productoModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nuevo Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="productoForm">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categoría</label>
+                        <select class="form-select" required>
+                            <option value="">Seleccione una categoría</option>
+                            <option value="1">Electrónicos</option>
+                            <option value="2">Ropa</option>
+                            <option value="3">Hogar</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Precio</label>
+                        <input type="number" class="form-control" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Stock</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" form="productoForm" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div> 

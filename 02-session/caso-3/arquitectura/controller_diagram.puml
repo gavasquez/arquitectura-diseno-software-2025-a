@@ -1,0 +1,79 @@
+@startuml Controller Layer Diagram
+
+' Base Controller Class
+abstract class BaseController {
+    #model: BaseModel
+    +create(data: Map): void
+    +read(id: int): BaseModel
+    +update(id: int, data: Map): void
+    +delete(id: int): void
+}
+
+' Controller Classes
+class ProductoController extends BaseController {
+    +listarProductos(): List<Producto>
+    +buscarPorCategoria(categoriaId: int): List<Producto>
+    +actualizarStock(productoId: int, cantidad: int): void
+}
+
+class CategoriaController extends BaseController {
+    +listarCategorias(): List<Categoria>
+    +buscarPorNombre(nombre: string): List<Categoria>
+}
+
+class ClienteController extends BaseController {
+    +listarClientes(): List<Cliente>
+    +buscarPorEmail(email: string): Cliente
+}
+
+class FacturaController extends BaseController {
+    +listarFacturas(): List<Factura>
+    +listarFacturasPorCliente(clienteId: int): List<Factura>
+    +generarFactura(clienteId: int, detalles: List<DetalleFactura>): Factura
+}
+
+class DetalleFacturaController extends BaseController {
+    +listarDetallesPorFactura(facturaId: int): List<DetalleFactura>
+    +agregarDetalle(facturaId: int, productoId: int, cantidad: int): void
+}
+
+' Controller Components
+package "Business Logic" {
+    [Validation] as VAL
+    [Authorization] as AUTH
+    [Transaction Management] as TX
+}
+
+' Controller Relationships
+ProductoController --> VAL : uses
+ProductoController --> AUTH : uses
+ProductoController --> TX : uses
+
+CategoriaController --> VAL : uses
+CategoriaController --> AUTH : uses
+CategoriaController --> TX : uses
+
+ClienteController --> VAL : uses
+ClienteController --> AUTH : uses
+ClienteController --> TX : uses
+
+FacturaController --> VAL : uses
+FacturaController --> AUTH : uses
+FacturaController --> TX : uses
+
+DetalleFacturaController --> VAL : uses
+DetalleFacturaController --> AUTH : uses
+DetalleFacturaController --> TX : uses
+
+note right of BaseController
+  Base Controller with
+  common CRUD
+  operations
+end note
+
+note right of VAL
+  Input Validation
+  and Business Rules
+end note
+
+@enduml 

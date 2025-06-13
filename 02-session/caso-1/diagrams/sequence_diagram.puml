@@ -1,0 +1,48 @@
+@startuml
+
+actor Cliente
+participant "Vista Factura" as VF
+participant "FacturaController" as FC
+participant "FacturaModel" as FM
+participant "DetalleFacturaModel" as DFM
+participant "ProductoModel" as PM
+database "Database" as DB
+
+Cliente -> VF: Crear nueva factura
+activate VF
+
+VF -> FC: POST /facturas
+activate FC
+
+FC -> FM: crearFactura()
+activate FM
+FM -> DB: INSERT factura
+DB --> FM: facturaId
+deactivate FM
+
+loop Para cada producto
+    FC -> PM: verificarStock()
+    activate PM
+    PM -> DB: SELECT stock
+    DB --> PM: stock
+    deactivate PM
+    
+    FC -> DFM: crearDetalle()
+    activate DFM
+    DFM -> DB: INSERT detalle
+    DB --> DFM: detalleId
+    deactivate DFM
+    
+    FC -> PM: actualizarStock()
+    activate PM
+    PM -> DB: UPDATE stock
+    deactivate PM
+end
+
+FC --> VF: Respuesta
+deactivate FC
+
+VF --> Cliente: Mostrar confirmación
+deactivate VF
+
+@enduml 

@@ -1,0 +1,140 @@
+@startuml MVC Architecture Class Diagram
+
+' Model Classes
+class Producto {
+    -id: int
+    -nombre: string
+    -precio: decimal
+    -stock: int
+    -categoriaId: int
+    +getProducto()
+    +setProducto()
+    +actualizarStock()
+}
+
+class Categoria {
+    -id: int
+    -nombre: string
+    -descripcion: string
+    +getCategoria()
+    +setCategoria()
+}
+
+class Cliente {
+    -id: int
+    -nombre: string
+    -email: string
+    -telefono: string
+    +getCliente()
+    +setCliente()
+}
+
+class Factura {
+    -id: int
+    -clienteId: int
+    -fecha: date
+    -total: decimal
+    +getFactura()
+    +setFactura()
+    +calcularTotal()
+}
+
+class DetalleFactura {
+    -id: int
+    -facturaId: int
+    -productoId: int
+    -cantidad: int
+    -precioUnitario: decimal
+    +getDetalle()
+    +setDetalle()
+    +calcularSubtotal()
+}
+
+' Controller Classes
+class ProductoController {
+    +listarProductos()
+    +crearProducto()
+    +actualizarProducto()
+    +eliminarProducto()
+}
+
+class CategoriaController {
+    +listarCategorias()
+    +crearCategoria()
+    +actualizarCategoria()
+    +eliminarCategoria()
+}
+
+class ClienteController {
+    +listarClientes()
+    +crearCliente()
+    +actualizarCliente()
+    +eliminarCliente()
+}
+
+class FacturaController {
+    +listarFacturas()
+    +crearFactura()
+    +actualizarFactura()
+    +eliminarFactura()
+}
+
+class DetalleFacturaController {
+    +listarDetalles()
+    +crearDetalle()
+    +actualizarDetalle()
+    +eliminarDetalle()
+}
+
+' View Classes (represented as interfaces)
+interface ProductoView {
+    +mostrarProductos()
+    +formularioProducto()
+    +mensaje()
+}
+
+interface CategoriaView {
+    +mostrarCategorias()
+    +formularioCategoria()
+    +mensaje()
+}
+
+interface ClienteView {
+    +mostrarClientes()
+    +formularioCliente()
+    +mensaje()
+}
+
+interface FacturaView {
+    +mostrarFacturas()
+    +formularioFactura()
+    +mensaje()
+}
+
+interface DetalleFacturaView {
+    +mostrarDetalles()
+    +formularioDetalle()
+    +mensaje()
+}
+
+' Relationships
+ProductoController --> Producto : manages
+ProductoController --> ProductoView : updates
+Producto --> Categoria : belongs to
+
+CategoriaController --> Categoria : manages
+CategoriaController --> CategoriaView : updates
+
+ClienteController --> Cliente : manages
+ClienteController --> ClienteView : updates
+
+FacturaController --> Factura : manages
+FacturaController --> FacturaView : updates
+Factura --> Cliente : belongs to
+Factura --> DetalleFactura : contains
+
+DetalleFacturaController --> DetalleFactura : manages
+DetalleFacturaController --> DetalleFacturaView : updates
+DetalleFactura --> Producto : references
+
+@enduml 

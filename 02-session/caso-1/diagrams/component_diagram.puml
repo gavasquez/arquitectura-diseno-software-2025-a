@@ -1,0 +1,41 @@
+@startuml
+
+package "Frontend" {
+  [Views] as Views
+  [CSS] as CSS
+  [JavaScript] as JS
+}
+
+package "Backend" {
+  package "Controllers" {
+    [ProductoController]
+    [CategoriaController]
+    [ClienteController]
+    [FacturaController]
+    [DetalleFacturaController]
+  }
+
+  package "Models" {
+    [ProductoModel]
+    [CategoriaModel]
+    [ClienteModel]
+    [FacturaModel]
+    [DetalleFacturaModel]
+  }
+
+  database "Database" {
+    [Productos]
+    [Categorias]
+    [Clientes]
+    [Facturas]
+    [DetallesFacturas]
+  }
+}
+
+' Relationships
+Views --> JS
+JS --> Controllers
+Controllers --> Models
+Models --> Database
+
+@enduml 

@@ -1,0 +1,108 @@
+@startuml Model Layer Diagram
+
+' Base Model Class
+abstract class BaseModel {
+    #id: int
+    #status: string
+    #created_at: datetime
+    #updated_at: datetime
+    #deleted_at: datetime
+    #created_by: int
+    #updated_by: int
+    #deleted_by: int
+    +getId(): int
+    +setId(id: int): void
+    +getStatus(): string
+    +setStatus(status: string): void
+    +getCreatedAt(): datetime
+    +setCreatedAt(created_at: datetime): void
+    +getUpdatedAt(): datetime
+    +setUpdatedAt(updated_at: datetime): void
+    +getDeletedAt(): datetime
+    +setDeletedAt(deleted_at: datetime): void
+    +getCreatedBy(): int
+    +setCreatedBy(created_by: int): void
+    +getUpdatedBy(): int
+    +setUpdatedBy(updated_by: int): void
+    +getDeletedBy(): int
+    +setDeletedBy(deleted_by: int): void
+}
+
+' Model Classes
+class Producto extends BaseModel {
+    -nombre: string
+    -precio: decimal
+    -stock: int
+    -categoriaId: int
+    +getNombre(): string
+    +setNombre(nombre: string): void
+    +getPrecio(): decimal
+    +setPrecio(precio: decimal): void
+    +getStock(): int
+    +setStock(stock: int): void
+    +actualizarStock(cantidad: int): void
+}
+
+class Categoria extends BaseModel {
+    -nombre: string
+    -descripcion: string
+    +getNombre(): string
+    +setNombre(nombre: string): void
+    +getDescripcion(): string
+    +setDescripcion(descripcion: string): void
+}
+
+class Cliente extends BaseModel {
+    -nombre: string
+    -email: string
+    -telefono: string
+    +getNombre(): string
+    +setNombre(nombre: string): void
+    +getEmail(): string
+    +setEmail(email: string): void
+    +getTelefono(): string
+    +setTelefono(telefono: string): void
+}
+
+class Factura extends BaseModel {
+    -clienteId: int
+    -fecha: date
+    -total: decimal
+    +getClienteId(): int
+    +setClienteId(clienteId: int): void
+    +getFecha(): date
+    +setFecha(fecha: date): void
+    +getTotal(): decimal
+    +setTotal(total: decimal): void
+    +calcularTotal(): decimal
+}
+
+class DetalleFactura extends BaseModel {
+    -facturaId: int
+    -productoId: int
+    -cantidad: int
+    -precioUnitario: decimal
+    +getFacturaId(): int
+    +setFacturaId(facturaId: int): void
+    +getProductoId(): int
+    +setProductoId(productoId: int): void
+    +getCantidad(): int
+    +setCantidad(cantidad: int): void
+    +getPrecioUnitario(): decimal
+    +setPrecioUnitario(precio: decimal): void
+    +calcularSubtotal(): decimal
+}
+
+' Model Relationships
+Producto --> Categoria : belongs to
+Factura --> Cliente : belongs to
+Factura --> DetalleFactura : contains
+DetalleFactura --> Producto : references
+
+note right of BaseModel
+  Base Model with
+  common attributes
+  and methods
+end note
+
+@enduml 
