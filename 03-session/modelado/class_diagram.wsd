@@ -1,0 +1,70 @@
+@startuml
+
+' Estilos
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor White
+    ArrowColor Black
+    BorderColor Black
+}
+
+' Entidades
+class Categoria {
+    +id: Integer
+    +nombre: String
+    +descripcion: Text
+    +created_at: Timestamp
+    +updated_at: Timestamp
+}
+
+class Producto {
+    +id: Integer
+    +categoria_id: Integer
+    +nombre: String
+    +descripcion: Text
+    +precio: Decimal
+    +stock: Integer
+    +imagen_url: String
+    +created_at: Timestamp
+    +updated_at: Timestamp
+}
+
+class Cliente {
+    +id: Integer
+    +nombre: String
+    +apellido: String
+    +email: String
+    +password: String
+    +direccion: Text
+    +telefono: String
+    +created_at: Timestamp
+    +updated_at: Timestamp
+}
+
+class Factura {
+    +id: Integer
+    +cliente_id: Integer
+    +fecha_factura: Timestamp
+    +total: Decimal
+    +estado: Enum
+    +created_at: Timestamp
+    +updated_at: Timestamp
+}
+
+class DetalleFactura {
+    +id: Integer
+    +factura_id: Integer
+    +producto_id: Integer
+    +cantidad: Integer
+    +precio_unitario: Decimal
+    +subtotal: Decimal
+    +created_at: Timestamp
+}
+
+' Relaciones
+Categoria "1" -- "0..*" Producto : contiene >
+Cliente "1" -- "0..*" Factura : genera >
+Factura "1" -- "1..*" DetalleFactura : contiene >
+Producto "1" -- "0..*" DetalleFactura : incluido en >
+
+@enduml 

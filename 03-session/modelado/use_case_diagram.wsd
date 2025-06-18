@@ -1,0 +1,61 @@
+@startuml
+
+' Estilos
+skinparam usecase {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
+
+' Actores
+actor Cliente
+actor Administrador
+
+' Casos de Uso - Cliente
+rectangle "Funcionalidades Cliente" {
+    usecase "Registrarse" as UC1
+    usecase "Iniciar Sesión" as UC2
+    usecase "Buscar Productos" as UC3
+    usecase "Ver Detalles Producto" as UC4
+    usecase "Agregar al Carrito" as UC5
+    usecase "Modificar Carrito" as UC6
+    usecase "Realizar Compra" as UC7
+    usecase "Ver Historial Compras" as UC8
+    usecase "Gestionar Perfil" as UC9
+}
+
+' Casos de Uso - Administrador
+rectangle "Funcionalidades Administrador" {
+    usecase "Gestionar Productos" as UC10
+    usecase "Gestionar Categorías" as UC11
+    usecase "Gestionar Pedidos" as UC12
+    usecase "Gestionar Clientes" as UC13
+    usecase "Generar Reportes" as UC14
+}
+
+' Relaciones Cliente
+Cliente --> UC1
+Cliente --> UC2
+Cliente --> UC3
+Cliente --> UC4
+Cliente --> UC5
+Cliente --> UC6
+Cliente --> UC7
+Cliente --> UC8
+Cliente --> UC9
+
+' Relaciones Administrador
+Administrador --> UC10
+Administrador --> UC11
+Administrador --> UC12
+Administrador --> UC13
+Administrador --> UC14
+
+' Inclusión y Extensión
+UC7 ..> UC5 : <<include>>
+UC7 ..> UC6 : <<include>>
+UC3 ..> UC4 : <<extend>>
+UC10 ..> UC11 : <<include>>
+
+@enduml 
+ 

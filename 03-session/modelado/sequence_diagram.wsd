@@ -1,0 +1,57 @@
+@startuml
+
+' Estilos
+skinparam sequence {
+    ArrowColor Black
+    LifeLineBorderColor Black
+    ParticipantBorderColor Black
+    ParticipantBackgroundColor White
+}
+
+' Participantes
+actor Cliente
+participant "Interfaz de Usuario" as UI
+participant "Controlador de Carrito" as CartController
+participant "Controlador de Pedido" as OrderController
+participant "Servicio de Pago" as PaymentService
+database "Base de Datos" as DB
+
+' Secuencia
+Cliente -> UI: Inicia proceso de compra
+activate UI
+
+UI -> CartController: Obtener carrito actual
+activate CartController
+CartController -> DB: Consultar carrito
+DB --> CartController: Datos del carrito
+CartController --> UI: Mostrar resumen
+deactivate CartController
+
+UI -> Cliente: Mostrar resumen de compra
+Cliente -> UI: Confirma compra
+activate UI
+
+UI -> OrderController: Crear pedido
+activate OrderController
+OrderController -> DB: Validar stock
+DB --> OrderController: Confirmación stock
+OrderController -> DB: Crear pedido
+DB --> OrderController: ID del pedido
+deactivate OrderController
+
+UI -> PaymentService: Procesar pago
+activate PaymentService
+PaymentService -> DB: Actualizar estado pedido
+DB --> PaymentService: Confirmación
+PaymentService --> UI: Confirmación pago
+deactivate PaymentService
+
+UI -> DB: Actualizar inventario
+activate DB
+DB --> UI: Confirmación actualización
+deactivate DB
+
+UI --> Cliente: Mostrar confirmación
+deactivate UI
+
+@enduml 
