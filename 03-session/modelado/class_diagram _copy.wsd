@@ -1,0 +1,101 @@
+@startuml
+
+' Estilos
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor White
+    ArrowColor Black
+    BorderColor Black
+}
+
+' Entidades principales
+class Categories {
+    +id: Integer
+    +name: String
+    +description: Text
+    +status: Enum
+    +delete_at: Timestamp
+    +created_at: Timestamp
+    +updated_at: Timestamp
+}
+
+class Products {
+    +id: Integer
+    +category_id: Integer
+    +name: String
+    +description: Text
+    +price: Decimal
+    +stock: Integer
+    +image_url: String
+    +status: Enum
+    +delete_at: Timestamp
+    +created_at: Timestamp
+    +updated_at: Timestamp
+}
+
+class Roles {
+    +id: Integer
+    +name: String
+    +description: Text
+    +status: Enum
+    +created_at: Timestamp
+    +updated_at: Timestamp
+}
+
+class Peoples {
+    +id: Integer
+    +first_name: String
+    +last_name: String
+    +email: String
+    +phone: String
+    +address: Text
+    +status: Enum
+    +delete_at: Timestamp
+    +created_at: Timestamp
+    +updated_at: Timestamp
+}
+
+class Users {
+    +id: Integer
+    +person_id: Integer
+    +username: String
+    +password: String
+    +status: Enum
+    +created_at: Timestamp
+    +updated_at: Timestamp
+}
+
+class UserRoles {
+    +user_id: Integer
+    +role_id: Integer
+}
+
+class Invoices {
+    +id: Integer
+    +user_id: Integer
+    +invoice_date: Timestamp
+    +total: Decimal
+    +status: Enum
+    +created_at: Timestamp
+    +updated_at: Timestamp
+}
+
+class InvoiceDetails {
+    +id: Integer
+    +invoice_id: Integer
+    +product_id: Integer
+    +quantity: Integer
+    +unit_price: Decimal
+    +subtotal: Decimal
+}
+
+' Relaciones
+Categories "1" -- "0..*" Products : contains >
+Peoples "1" -- "1" Users : has >
+Users "1" -- "0..*" Invoices : creates >
+Users "1" -- "0..*" UserRoles : assigned >
+Roles "1" -- "0..*" UserRoles : defines >
+Invoices "1" -- "1..*" InvoiceDetails : includes >
+Products "1" -- "0..*" InvoiceDetails : included in >
+
+@enduml
